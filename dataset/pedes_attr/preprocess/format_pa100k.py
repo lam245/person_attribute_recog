@@ -25,6 +25,7 @@ def generate_data_description(save_dir, reorder):
     """
     # pa100k_data = loadmat('/mnt/data1/jiajian/dataset/attribute/PA100k/annotation.mat')
     pa100k_data = loadmat(os.path.join(save_dir, 'annotation.mat'))
+    # save_dir = './data/PA100k/'
 
     dataset = EasyDict()
     dataset.description = 'pa100k'
@@ -59,7 +60,7 @@ def generate_data_description(save_dir, reorder):
 
 
 if __name__ == "__main__":
-    save_dir = '/mnt/data1/jiajian/datasets/attribute/PA100k/'
-    # save_dir = './data/PA100k/'
+    # save_dir = '/mnt/data1/jiajian/datasets/attribute/PA100k/'
+    save_dir = './data/PA100k/'
     reoder = True
     generate_data_description(save_dir, reorder=True)

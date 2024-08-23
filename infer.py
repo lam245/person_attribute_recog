@@ -17,13 +17,13 @@ from tqdm import tqdm
 from configs import cfg, update_config
 from dataset.pedes_attr.pedes import PedesAttr
 from metrics.ml_metrics import get_map_metrics, get_multilabel_metrics
-from models.base_block import FeatClassifier
+from models.base_block import Network
 # from models.model_factory import model_dict, classifier_dict
 
 from tools.function import get_model_log_path, get_reload_weight
 from tools.utils import set_seed, str2bool, time_str
 from models.backbone import swin_transformer, resnet, bninception
-from models.backbone.tresnet import tresnet
+# from models.backbone.tresnet import tresnet
 from losses import bceloss, scaledbceloss
 
 set_seed(605)
@@ -75,17 +75,16 @@ def main(cfg, args):
     classifier = build_classifier(cfg.CLASSIFIER.NAME)(
         nattr=train_set.attr_num,
         c_in=c_output,
-        bn=cfg.CLASSIFIER.BN,
-        pool=cfg.CLASSIFIER.POOLING,
-        scale =cfg.CLASSIFIER.SCALE
+        bb ='resnet50'
+        
     )
 
-    model = FeatClassifier(backbone, classifier)
+    model = Network(backbone, classifier)
 
     if torch.cuda.is_available():
         model = torch.nn.DataParallel(model).cuda()
 
-    model = get_reload_weight(model_dir, model, pth='xxxxxxxxxxxxxxx')
+    model = get_reload_weight("/home/coder/person_attribute_recog/exp_result/PA100k/resnet50.base.adam/img_model/", model,pth='ckpt_max_2024-08-22_09:40:57.pth')
 
     model.eval()
     preds_probs = []
@@ -95,8 +94,9 @@ def main(cfg, args):
     attn_list = []
     with torch.no_grad():
         for step, (imgs, gt_label, imgname) in enumerate(tqdm(valid_loader)):
-            imgs = imgs.cuda()
-            gt_label = gt_label.cuda()
+            if torch.cuda.is_available():
+                imgs = imgs.cuda()
+                gt_label = gt_label.cuda()
             valid_logits, attns = model(imgs, gt_label)
 
             valid_probs = torch.sigmoid(valid_logits[0])

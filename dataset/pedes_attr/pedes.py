@@ -17,7 +17,7 @@ class PedesAttr(data.Dataset):
             f'dataset name {cfg.DATASET.NAME} is not exist'
 
         data_path = get_pkl_rootpath(cfg.DATASET.NAME, cfg.DATASET.ZERO_SHOT)
-
+        # print("lam"+ data_path)
         print("which pickle", data_path)
 
         dataset_info = pickle.load(open(data_path, 'rb+'))
@@ -52,7 +52,7 @@ class PedesAttr(data.Dataset):
         self.dataset = cfg.DATASET.NAME
         self.transform = transform
         self.target_transform = target_transform
-
+        # print("lam0"+dataset_info.root)
         self.root_path = dataset_info.root
 
         if self.target_transform:
@@ -77,8 +77,9 @@ class PedesAttr(data.Dataset):
     def __getitem__(self, index):
 
         imgname, gt_label, imgidx = self.img_id[index], self.label[index], self.img_idx[index]
-
-        imgpath = os.path.join(self.root_path, imgname)
+        root0_path = "./data/PA100k/data"
+        imgpath = os.path.join(root0_path, imgname)
+        # print("lam1"+ self.root_path)
         img = Image.open(imgpath)
 
         if self.transform is not None:

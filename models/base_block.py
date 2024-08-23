@@ -10,7 +10,7 @@ from einops import rearrange,repeat,reduce
 from torch.nn.parameter import Parameter
 from timm.models.layers import trunc_normal_, DropPath
 from timm.models.registry import register_model
-    
+from models.registry import CLASSIFIER
 def trans_data(x, y, alpha=1.0, natt=1, c_in=2048):
     
     batch_size = x.shape[0]
@@ -68,6 +68,7 @@ def initialize_weights(module):
             stdv = 1. / math.sqrt(m.weight.size(1))
             m.weight.data.uniform_(-stdv, stdv)
 
+@CLASSIFIER.register("linear")
 class Classifier(nn.Module):
 
     def __init__(self, c_in, nattr, bb):

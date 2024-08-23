@@ -100,7 +100,7 @@ def get_pkl_rootpath(dataset, zero_shot):
         data_path = os.path.join(root, 'dataset_zs_run0.pkl')
     else:
         data_path = os.path.join(root, 'dataset_all.pkl')  #
-
+    print(data_path)
     return data_path
 
 
@@ -114,6 +114,6 @@ def get_reload_weight(model_path, model, pth='ckpt_max.pth'):
         pretrain_dict = load_dict['state_dicts']
         print(f"best performance {load_dict['metric']} in epoch : {load_dict['epoch']}")
 
-    model.load_state_dict(pretrain_dict, strict=True)
+    model.load_state_dict(pretrain_dict,  strict=False)
 
     return model
