@@ -3,16 +3,17 @@ import json
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import pickle
+import numpy as np
+import torch
+from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from dataset.augmentation import get_transform
 from dataset.multi_label.coco import COCO14
 from metrics.pedestrian_metrics import get_pedestrian_metrics
 from models.model_factory import build_backbone, build_classifier
 
-import numpy as np
-import torch
-from torch.utils.data import DataLoader
-from tqdm import tqdm
+
 
 from configs import cfg, update_config
 from dataset.pedes_attr.pedes import PedesAttr
