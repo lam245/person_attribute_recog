@@ -138,7 +138,7 @@ def argument_parser():
 
     parser.add_argument("--cfg", help="decide which cfg to use", type=str, required=True)
     parser.add_argument("--image_folder", help="path to the folder containing images for inference", type=str, required=True)
-    parser.add_argument("--batch_size", help="batch size for inference", type=int, default=32)
+    parser.add_argument("--batch_size", help="batch size for inference", type=int, default=)
     parser.add_argument("--output_file", help="path to save the inference results", type=str, default="inference_results.txt")
     parser.add_argument("--output_format", help="format of the output file (txt or csv)", type=str, choices=['txt', 'csv'], default='txt')
 
